@@ -1,0 +1,25 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Build router (make)",
+            "command": "make",
+            "args": [
+                "clean",
+                "all"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Use project makefile to build all sources."
+        }
+    ],
+    "version": "2.0.0"
+}
