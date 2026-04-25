@@ -4,10 +4,12 @@ project(router)
 # C 语言标准
 set(CMAKE_C_STANDARD 99)
 
-# 开启所有警告
-add_compile_options(-Wall -Wextra)
+# 只在 GCC/Clang 下开启警告，Windows 自动跳过
+if(NOT MSVC)
+    add_compile_options(-Wall -Wextra)
+endif()
 
-# 把你所有的 .c 文件全部列在这里
+# 所有 C 源文件
 add_executable(router
     main.c
     arp_link.c
@@ -18,5 +20,5 @@ add_executable(router
     key_thread.c
 )
 
-# Linux 网络多线程必须链接的库
+# 多线程库
 target_link_libraries(router pthread)
