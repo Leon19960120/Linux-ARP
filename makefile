@@ -5,13 +5,14 @@ CC = gcc
 # -Wall, -Wextra: 开启所有常用警告和额外警告
 # -g: 生成调试信息
 # -fdiagnostics-color=always: 编译输出带颜色，更易读
-CFLAGS = -Wall -Wextra -g -fdiagnostics-color=always
+# -Isrc: 添加头文件搜索路径
+CFLAGS = -Wall -Wextra -g -fdiagnostics-color=always -Isrc
 
-# 定义链接器选项 
+# 定义链接器选项
 LDFLAGS = -lpthread
 
 # 定义源文件
-SOURCES = main.c ip_link.c get_interface.c arp_link.c key_thread.c arp_pthread.c ip_pthread.c
+SOURCES = src/main.c src/ip/ip_link.c src/interface/get_interface.c src/arp/arp_link.c src/cmd/key_thread.c src/arp/arp_pthread.c src/ip/ip_pthread.c
 
 # 从源文件列表中自动生成目标文件列表 (.c -> .o)
 OBJECTS = $(SOURCES:.c=.o)
@@ -35,13 +36,13 @@ $(EXECUTABLE): $(OBJECTS)
 
 # 定义 .o 文件对头文件的依赖关系
 # 如果 ip_link.h 修改了，main.o 和 ip_link.o 将会被重新编译
-main.o: ip_link.h arp_link.h get_interface.h main.h ip_pthread.h arp_pthread.h key_thread.h
-ip_link.o: ip_link.h
-arp_link.o: arp_link.h
-get_interface.o: get_interface.h
-ip_pthread.o: ip_pthread.h ip_link.h arp_link.h get_interface.h main.h
-arp_pthread.o: arp_pthread.h arp_link.h
-key_thread.o: key_thread.h ip_link.h arp_link.h main.h
+src/main.o: src/main.h src/ip/ip_link.h src/interface/get_interface.h src/arp/arp_link.h src/ip/ip_pthread.h src/arp/arp_pthread.h src/cmd/key_thread.h
+src/ip/ip_link.o: src/ip/ip_link.h
+src/arp/arp_link.o: src/arp/arp_link.h
+src/interface/get_interface.o: src/interface/get_interface.h
+src/ip/ip_pthread.o: src/ip/ip_pthread.h src/ip/ip_link.h src/arp/arp_link.h src/interface/get_interface.h src/main.h
+src/arp/arp_pthread.o: src/arp/arp_pthread.h src/arp/arp_link.h
+src/cmd/key_thread.o: src/cmd/key_thread.h src/ip/ip_link.h src/arp/arp_link.h src/main.h
 
 # 目标：清除所有生成的文件 (.o 文件和可执行文件)
 clean:

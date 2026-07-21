@@ -11,14 +11,16 @@ endif()
 
 # 所有 C 源文件
 add_executable(router
-    main.c
-    arp_link.c
-    arp_pthread.c
-    get_interface.c
-    ip_link.c
-    ip_pthread.c
-    key_thread.c
+    src/main.c
+    src/arp/arp_link.c
+    src/arp/arp_pthread.c
+    src/interface/get_interface.c
+    src/ip/ip_link.c
+    src/ip/ip_pthread.c
+    src/cmd/key_thread.c
 )
+
+target_include_directories(router PRIVATE src)
 
 # 多线程库
 target_link_libraries(router pthread)
